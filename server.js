@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const bodyParser = require('body-parser')
 const dbConfig = require('./application/config/db.config')
 
 const corsOptions = {
@@ -8,6 +9,8 @@ const corsOptions = {
 
 const app = express();
 app.use(cors(corsOptions));
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: true}))
 
 const db = require('./application/models');
 const Role = db.role;

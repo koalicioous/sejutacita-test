@@ -23,7 +23,7 @@ const emailIsExisted = (req, res, next) => {
 const roleIsExisted = (req, res, next) => {
     if (req.body.roles) {
         req.body.roles.map( role => {
-            if(!ROLES.includes(ROLE)) {
+            if(!ROLES.includes(role)) {
                 res.status(400).send({
                     message: 'Role yang didaftarkan tidak tersedia'
                 });
