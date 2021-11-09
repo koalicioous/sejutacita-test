@@ -1,7 +1,10 @@
 const config = require('../config/auth.config');
 const db = require('../models');
-const User = db.user;
-const Role = db.role;
+const {
+    user: User,
+    role: Role,
+    refreshToken: RefreshToken
+} = db
 
 let jwt = require('jsonwebtoken');
 let bcrypt = require('bcryptjs');
@@ -90,6 +93,8 @@ const signIn = (req,res) => {
             expiresIn: 86400
         })
 
+        const refreshToken = await RefreshToken.createToken(user);
+
         let authorities = [];
 
         user.roles.map(role => {
@@ -99,12 +104,49 @@ const signIn = (req,res) => {
             id: user._id,
             email: user.email,
             roles: authorities,
-            accessToken: token
+            accessToken: token,
+            refreshToken: refreshToken
         })
     })
 }
 
+const refreshToken = async (req,res) => {
+    const { refreshToken: requestToken } = req.body;
+
+    if (requestToken == null ) return res.status(403).json({ message: 'Refresh Token is required'});
+
+    try {
+        let refreshToken = await RefreshToken.findOne({ token: requestToken });
+
+        if (!refreshToken) {
+            res.status(403).json({ message: "Refresh token is not found"})
+            return;
+        }
+
+        if (RefreshToken.verifyExpiration(refreshToken)) {
+            RefreshToken.findByIdAndRemove(refreshToken._id, {useFindandModify: false}).exec();
+            
+            res.status(403).json({
+                message: "Refresh token was expired. Please sign in."
+            });
+            return;
+        }
+
+        let newAccessToken = jwt.sign({ id: refreshToken.user._id }, config.secret, {
+            expiresIn: config.jwtExpiration
+        })
+
+        return res.status(200).json({
+            accessToken: newAccessToken,
+            refreshToken: refreshToken.token
+        })
+    } catch ( err ) {
+        return res.status(500).send({ message: err })
+    }
+}
+
 module.exports = {
     signUp,
-    signIn
+    signIn,
+    refreshToken
 }

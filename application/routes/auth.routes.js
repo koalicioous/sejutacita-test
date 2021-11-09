@@ -8,7 +8,7 @@ module.exports = function(app) {
             'x-access-token, Origin, Content-Type, Accept'
         );
         next();
-    })
+    });
 
     app.post(
         '/api/auth/signup',
@@ -17,7 +17,9 @@ module.exports = function(app) {
             verifyRegistration.roleIsExisted
         ],
         controller.signUp
-    )
+    );
 
-    app.post('/api/auth/signin', controller.signIn)
+    app.post('/api/auth/signin', controller.signIn);
+
+    app.post('/api/auth/refreshToken', controller.refreshToken);
 }

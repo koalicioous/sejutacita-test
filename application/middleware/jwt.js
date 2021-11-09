@@ -1,8 +1,17 @@
 const authJwt = require('jsonwebtoken');
-const config = require('../config/auth.config')
+const { TokenExpiredError } = authJwt;
+const config = require('../config/auth.config');
 const db = require('../models');
 const User = db.user;
 const Role = db.role;
+
+const catchError = (err, res) => {
+    if (err instanceof TokenExpiredError) {
+        return res.status(401).send({ message: 'Unauthorized: Access Token was expired'});
+    }
+
+    return res.status(401).send({ message: 'Unauthorized!'})
+}
 
 const verifyToken = (req,res,next) => {
     let token = req.headers['x-access-token'];
@@ -10,7 +19,7 @@ const verifyToken = (req,res,next) => {
     if (!token) return res.status(403).send({ message: 'No token provided!' });
 
     authJwt.verify(token, config.secret, (err,decoded) => {
-        if (err) return res.status(401).send({ message: 'Unauthorized!'});
+        if (err) return catchError(err,res)
         req.userId = decoded.id;
         next();
     })
@@ -34,7 +43,7 @@ const isAdmin = (req,res,next) => {
                 }
 
                 for (let i = 0; i < roles.length; i++) {
-                if (roles[i].name === "admin") {
+                    if (roles[i].name === "admin") {
                         next();
                         return;
                     }
@@ -44,28 +53,6 @@ const isAdmin = (req,res,next) => {
                 return;
             }
         )
-        // Role.find(
-        //     {
-        //       _id: { $in: user.roles }
-        //     },
-        //     (err, roles) => {
-        //       if (err) {
-        //         res.status(500).send({ message: err });
-        //         return;
-        //       }
-      
-        //       for (let i = 0; i < roles.length; i++) {
-        //         if (roles[i].name === "admin") {
-        //             console.log(roles[i].name)
-        //           next();
-        //           return;
-        //         }
-        //       }
-      
-        //       res.status(403).send({ message: "Require Admin Role!" });
-        //       return;
-        //     }
-        // );
     })
 }
 
