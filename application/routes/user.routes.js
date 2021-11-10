@@ -11,13 +11,12 @@ module.exports = function(app) {
         next();
     })
 
-    // app.get('/api/',controller.publicContent);
-
-    app.get('/api/user',[jwt.verifyToken],controller.getProfile)
+    // Routes for all authenticated User
+    app.get('/api/user',[jwt.verifyToken],controller.getProfile);
+    app.put('/api/user/password',[jwt.verifyToken],controller.updatePassword);
+    app.put('/api/user/email',[jwt.verifyToken],controller.updateEmail)
 
     // Routes for Admin
     app.get('/api/users',[jwt.verifyToken,jwt.isAdmin],adminController.getUsers)
     app.get('/api/user/:id', [jwt.verifyToken,jwt.isAdmin], adminController.getUser)
-
-    app.get('/api/admin',[jwt.verifyToken,jwt.isAdmin],controller.adminContent)
 }
