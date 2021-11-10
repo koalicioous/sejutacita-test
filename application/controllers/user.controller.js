@@ -1,7 +1,8 @@
 const db = require('../models');
 let bcrypt = require('bcryptjs');
 const {
-    user: User
+    user: User,
+    refreshToken: RefreshToken
 } = db;
 
 const getProfile = (req,res) => {
@@ -58,9 +59,19 @@ const updateEmail = (req,res) => {
     return res.status(500).send({message:'Failed to update email'})
 }
 
+const deleteOwnAccount = async (req,res) => {
+    await RefreshToken.deleteMany({user:req.userId})
+    User.findByIdAndDelete(req.userId, (err, user) => {
+        if (err) {
+            res.status(500).send({message:err})
+        }
+        return res.status(200).send({message:'deleted the account'})
+    })
+}
 
 module.exports = {
     getProfile,
     updatePassword,
-    updateEmail
+    updateEmail,
+    deleteOwnAccount
 }

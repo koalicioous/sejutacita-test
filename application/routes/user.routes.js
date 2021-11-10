@@ -14,7 +14,8 @@ module.exports = function(app) {
     // Routes for all authenticated User
     app.get('/api/user',[jwt.verifyToken],controller.getProfile);
     app.put('/api/user/password',[jwt.verifyToken],controller.updatePassword);
-    app.put('/api/user/email',[jwt.verifyToken],controller.updateEmail)
+    app.put('/api/user/email',[jwt.verifyToken],controller.updateEmail);
+    app.delete('/api/user',[jwt.verifyToken],controller.deleteOwnAccount);
 
     // Routes for Admin
     app.get('/api/users',[jwt.verifyToken,jwt.isAdmin],adminController.getUsers)
