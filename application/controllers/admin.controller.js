@@ -1,4 +1,5 @@
-const db = require('../models')
+const db = require('../models');
+let bcrypt = require('bcryptjs');
 const {
     user: User,
     refreshToken: RefreshToken
