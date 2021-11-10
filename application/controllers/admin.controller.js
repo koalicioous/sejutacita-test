@@ -63,7 +63,7 @@ const setUserPassword = (req,res) => {
         return User.findByIdAndUpdate(
             userId,
             {
-                password: bcrypt.hashSync(password,8)
+                password: bcrypt.hashSync(String(password),8)
             }
         )
         .then(result => {

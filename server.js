@@ -55,14 +55,14 @@ db.mongoose
     })
 
 app.get('/', (req,res) => {
-    res.json({message: 'Welcome to SejutaCita!'})
+    res.json({message: 'SejutaCita technical test.'})
 })
 
 //Authentication and Authorization Routes
 require('./application/routes/auth.routes')(app)
 require('./application/routes/user.routes')(app)
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
     console.log(`SejutaCita's user data server is running on port ${PORT}`);
 });

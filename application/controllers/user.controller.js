@@ -27,7 +27,7 @@ const updatePassword = (req,res) => {
         return User.findByIdAndUpdate(
             req.userId,
             {
-                password: bcrypt.hashSync(password,8)
+                password: bcrypt.hashSync(String(password),8)
             }
         )
         .then(result => {

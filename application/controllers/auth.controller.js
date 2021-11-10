@@ -12,7 +12,7 @@ let bcrypt = require('bcryptjs');
 const signUp = (req,res) => {
     const user = new User({
         email: req.body.email,
-        password: bcrypt.hashSync(req.body.password, 8)
+        password: bcrypt.hashSync(String(req.body.password), 8)
     });
 
     user.save((err,user) => {
@@ -57,7 +57,7 @@ const signUp = (req,res) => {
                         return;
                     }
 
-                    res.send({ message: 'Berhasil membuat user baru.'})
+                    res.status(200).send({ message: 'Berhasil membuat user baru.'})
                 })
             })
         }
@@ -78,7 +78,7 @@ const signIn = (req,res) => {
         if (!user) return res.status(404).send({message: 'User tidak ditemukan.'});
 
         const passwordIsValid = bcrypt.compareSync(
-            req.body.password,
+            String(req.body.password),
             user.password
         )
 

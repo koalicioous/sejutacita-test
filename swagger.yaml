@@ -1,0 +1,36 @@
+openapi: 3.0.0
+info:
+  title: SejutaCita Technical Test
+  description: This is a simple role-based authentication server written by Ulil Albab Surya Negara. Created as part of technical test as Software Engineer at SejutaCita
+  version: 0.1.0
+servers:
+  - url: http://localhost:8000/
+    description: Development server
+paths:
+  /api/auth/signup:
+    post:
+      summary: Create new user.
+      description: Endpoint used to create new user in database.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: new.user@sejutacita.id
+                password:
+                  type: string
+                  min: 6
+                  example: SecurePassword2021!@#
+      responses:
+        '200': 
+          description: Successfully created new user in database
+          content:
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  message: 'Berhasil membuat user baru.'
