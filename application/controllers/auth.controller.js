@@ -69,7 +69,7 @@ const signIn = (req,res) => {
         email: req.body.email
     })
     .populate('roles', "-__v")
-    .exec((err,user) => {
+    .exec( async (err,user) => {
         if (err) {
             res.status(500).send({message:err});
             return

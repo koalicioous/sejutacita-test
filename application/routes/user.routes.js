@@ -1,5 +1,6 @@
 const { jwt } = require('../middleware')
 const controller = require('../controllers/user.controller')
+const adminController = require('../controllers/admin.controller')
 
 module.exports = function(app) {
     app.use((req,res,next) => {
@@ -10,12 +11,13 @@ module.exports = function(app) {
         next();
     })
 
-    app.get('/api/', controller.publicContent);
+    // app.get('/api/',controller.publicContent);
 
-    app.get('/api/user',[jwt.verifyToken],controller.userContent)
+    app.get('/api/user',[jwt.verifyToken],controller.getProfile)
 
-    app.get('/api/admin',
-    [jwt.verifyToken,jwt.isAdmin],
-        controller.adminContent
-    )
+    // Routes for Admin
+    app.get('/api/users',[jwt.verifyToken,jwt.isAdmin],adminController.getUsers)
+    app.get('/api/user/:id', [jwt.verifyToken,jwt.isAdmin], adminController.getUser)
+
+    app.get('/api/admin',[jwt.verifyToken,jwt.isAdmin],controller.adminContent)
 }
