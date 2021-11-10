@@ -1,7 +1,9 @@
 const express = require('express');
 const cors = require('cors');
-const bodyParser = require('body-parser')
-const dbConfig = require('./application/config/db.config')
+const bodyParser = require('body-parser');
+const dbConfig = require('./application/config/db.config');
+const swaggerUI = require('swagger-ui-express');
+const swaggerJsDoc = require('swagger-jsdoc');
 
 const corsOptions = {
     origin: 'http://localhost:3001'

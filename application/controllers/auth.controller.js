@@ -10,6 +10,10 @@ let jwt = require('jsonwebtoken');
 let bcrypt = require('bcryptjs');
 
 const signUp = (req,res) => {
+    if (!req.body.email || !req.body.password) {
+        res.status(500).send({ message: 'Invalid request'});
+        return;
+    }
     const user = new User({
         email: req.body.email,
         password: bcrypt.hashSync(String(req.body.password), 8)
