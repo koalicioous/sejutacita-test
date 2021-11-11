@@ -30,5 +30,5 @@ Below is the schema of SignUp, Login, Refresh Token, and New Access Token reques
 ![Frame 2 (1).png](images/Frame_2_(1).png)
 
 # Local Kubernetes Deployment
-![Terminal view](images/terminal-view.png)
+![Terminal view](images/terminal--view.png)
 ![Browser View](images/browser-view.png)
