@@ -10,16 +10,8 @@ module.exports = function(app) {
         next();
     });
 
-    app.post(
-        '/api/auth/signup',
-        [
-            verifyRegistration.emailIsExisted,
-            verifyRegistration.roleIsExisted
-        ],
-        controller.signUp
-    );
-
+    
+    app.post('/api/auth/signup',[verifyRegistration.emailIsExisted,verifyRegistration.roleIsExisted],controller.signUp);
     app.post('/api/auth/signin', controller.signIn);
-
     app.post('/api/auth/refreshToken', controller.refreshToken);
 }

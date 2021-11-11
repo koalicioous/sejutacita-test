@@ -6,10 +6,29 @@ const swaggerUI = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
 
 const corsOptions = {
-    origin: 'http://localhost:3001'
+    origin: 'http://localhost:8000'
 };
 
+const options = {
+    definition: {
+        openapi: "3.0.0",
+        info: {
+            title: "SejutaCita Test Case",
+            version: "1.0.0",
+            description: "Technical test written by Ulil Albab"
+        },
+        servers: [
+            {
+                url: "http://localhost:8000"
+            }
+        ],
+    },
+    apis: ["./application/routes/*.js"]
+}
+
+const specs = swaggerJsDoc(options)
 const app = express();
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs))
 app.use(cors(corsOptions));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))

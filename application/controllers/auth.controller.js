@@ -43,7 +43,7 @@ const signUp = (req,res) => {
                             return;
                         }
 
-                        res.send({ message: 'Berhasil membuat user baru.' })
+                        res.status(200).send({ message: 'Berhasil membuat user baru.' })
                     })
                 }
             )

@@ -13,6 +13,7 @@ module.exports = function(app) {
     })
 
     // Routes for all authenticated User
+    
     app.get('/api/user',[jwt.verifyToken],controller.getProfile);
     app.put('/api/user/password',[jwt.verifyToken],controller.updatePassword);
     app.put('/api/user/email',[jwt.verifyToken,verifyRegistration.emailIsExisted],controller.updateEmail);
