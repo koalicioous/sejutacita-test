@@ -13,6 +13,7 @@ This source code contains a simple role-based authentication server written as t
 # API Documentation
 
 Access route **/api-docs** to access Swagger API Documentation. Due to unresolved bug in swagger-ui-express, request body is sometimes not included in the test request and causing unwanted result. Please consider testing the API with Postman.
+![Api Screenshot](images/api-screenshot.png)
 
 # Database Diagram
 
@@ -27,3 +28,7 @@ Below is the schema of SignUp, Login, Refresh Token, and New Access Token reques
 # CRUD Flow Diagram
 
 ![Frame 2 (1).png](images/Frame_2_(1).png)
+
+# Local Kubernetes Deployment
+![Terminal view](images/terminal-view.png)
+![Browser View](images/browser-view.png)
